@@ -5,6 +5,7 @@ import { ProtectedRoute } from './components/shared/ProtectedRoute';
 import NotFound from './pages/NotFound';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
+import OnboardingPage from './pages/OnboardingPage';
 
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
         {/* Public routes */}
         <Route path="/login" element={<AuthPage />} />
         <Route path="/" element={<LandingPage />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
         
         {/* Protected routes */}
         <Route

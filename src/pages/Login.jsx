@@ -17,10 +17,10 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await post('/auth/login', { email, password });
+      // const response = await post('/auth/login', { email, password });
       // Assume backend returns { token: '...' }
-      login(response.token);
-      navigate('/dashboard', { replace: true });
+      // login(response.token);
+      navigate('/onboarding', { replace: true });
     } catch (err) {
       // Error is already set in useAxios state
       console.error('Login failed');

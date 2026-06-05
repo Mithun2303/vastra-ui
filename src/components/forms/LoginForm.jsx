@@ -1,6 +1,9 @@
 import SocialLogin from "./SocialLogin";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginForm({ onSwitch }) {
+const nav = useNavigate();
+
   return (
     <>
       <div className="text-center">
@@ -39,6 +42,7 @@ export default function LoginForm({ onSwitch }) {
 
         <button
           type="submit"
+          onClick={()=>nav("/onboarding")}
           className="h-14 w-full rounded-2xl bg-maroon text-white"
         >
           Sign In
