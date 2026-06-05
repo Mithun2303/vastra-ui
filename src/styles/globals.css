@@ -1,0 +1,51 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;700&display=swap");
+
+@import "tailwindcss";
+
+@keyframes logoReveal {
+  0% {
+    clip-path: inset(0 100% 0 0);
+    opacity: 0;
+  }
+
+  30% {
+    opacity: 1;
+  }
+
+  100% {
+    clip-path: inset(0 0% 0 0);
+    opacity: 1;
+  }
+}
+
+@theme {
+  --color-maroon: #7b1c2e;
+  --color-maroon-light: #a32942;
+  --color-maroon-dark: #4a0f1a;
+  
+  --color-cream: #faf7f2;
+  --color-charcoal: #1a1a1a;
+  --color-muted: #6b6157;
+  --font-playfair: "Playfair Display", serif;
+  --font-cormorant: "Cormorant Garamond", serif;
+}
+
+body {
+  font-family: "DM Sans", sans-serif;
+}
+
+.font-playfair {
+  font-family: "Playfair Display", serif;
+}
+
+.font-cormorant {
+  font-family: "Cormorant Garamond", serif;
+}
+
+.input {
+  @apply w-full rounded-xl border border-neutral-300 bg-white px-4 py-3 text-sm outline-none transition;
+}
+
+.input:focus {
+  @apply border-maroon ring-2 ring-maroon/20;
+}
