@@ -230,55 +230,91 @@ export default function OnboardingPage() {
               <div className="mt-6 grid grid-cols-4 gap-3">
                 {categories.map((category) => (
                   <button
-                    key={category.name}
-                    disabled={category.comingSoon}
-                    onClick={() => toggleCategory(category.name)}
-                    className={`
-              relative
-              h-20
-              rounded-2xl
-              border
-              p-3
-              transition-all
-              duration-300
+  key={category.name}
+  disabled={category.comingSoon}
+  onClick={() => toggleCategory(category.name)}
+  className={`
+    group
+    relative
+    h-20
+    overflow-hidden
+    rounded-2xl
+    border
+    p-3
+    transition-all
+    duration-300
+    ease-out
 
-              ${selectedCategories.includes(category.name)
-                        ? "border-maroon bg-maroon text-white"
-                        : "border-black/10 bg-white hover:border-maroon/30"
-                      }
+    ${
+      selectedCategories.includes(category.name)
+        ? "border-maroon bg-maroon text-white shadow-lg shadow-maroon/20"
+        : "border-black/10 bg-white hover:-translate-y-1 hover:border-maroon/30 hover:shadow-xl hover:shadow-black/5"
+    }
 
-              ${category.comingSoon
-                        ? "cursor-not-allowed opacity-50"
-                        : ""
-                      }
-            `}
-                  >
-                    {category.comingSoon && (
-                      <span
-                        className="
-                  absolute
-                  right-2
-                  top-2
-                  rounded-full
-                  bg-black/10
-                  px-2
-                  py-0.5
-                  text-[9px]
-                  uppercase
-                "
-                      >
-                        V2
-                      </span>
-                    )}
+    ${category.comingSoon ? "cursor-not-allowed opacity-50" : ""}
+  `}
+>
+  {/* Hover Gradient */}
+  <div
+    className="
+      absolute
+      inset-0
+      bg-gradient-to-br
+      from-maroon/5
+      to-transparent
+      opacity-0
+      transition-opacity
+      duration-300
+      group-hover:opacity-100
+    "
+  />
 
-                    <div className="text-xl">
-                      {category.icon}
-                    </div>
+  {category.comingSoon && (
+    <span
+      className="
+        absolute
+        right-2
+        top-2
+        z-10
+        rounded-full
+        bg-black/10
+        px-2
+        py-0.5
+        text-[9px]
+        uppercase
+      "
+    >
+      V2
+    </span>
+  )}
 
-                    <div className="mt-1 text-xs font-medium">
-                      {category.name}
-                    </div>
-                  </button>
+  <div
+    className="
+      relative
+      text-xl
+      transition-transform
+      duration-300
+      group-hover:scale-110
+      group-hover:-translate-y-0.5
+    "
+  >
+    {category.icon}
+  </div>
+
+  <div
+    className="
+      relative
+      mt-1
+      text-xs
+      font-medium
+      transition-all
+      duration-300
+      group-hover:tracking-wide
+    "
+  >
+    {category.name}
+  </div>
+</button>
                 ))}
               </div>
 
