@@ -44,7 +44,7 @@ export default function EmptyState() {
         {/* CTAs */}
         <div className="flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
           <button
-            onClick={() => navigate("/onboarding")}
+            onClick={() => navigate("/analysis", { state: { method: "upload" } })}
             className="group flex items-center gap-2 rounded-xl bg-maroon px-6 py-3 text-[13px] font-semibold text-white transition-all hover:scale-[1.02] hover:shadow-lg hover:shadow-maroon/15"
           >
             <Sparkles size={15} />
@@ -55,7 +55,10 @@ export default function EmptyState() {
             />
           </button>
 
-          <button className="flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-[13px] font-semibold text-charcoal transition-all hover:border-charcoal/30 hover:bg-surface-secondary">
+          <button
+            onClick={() => navigate("/analysis", { state: { method: "manual" } })}
+            className="flex items-center gap-2 rounded-xl border border-border px-6 py-3 text-[13px] font-semibold text-charcoal transition-all hover:border-charcoal/30 hover:bg-surface-secondary"
+          >
             <FileText size={15} />
             Manual Entry
           </button>

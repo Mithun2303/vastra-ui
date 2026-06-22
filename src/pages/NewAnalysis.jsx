@@ -393,7 +393,6 @@ export default function NewAnalysis() {
 
     setAnalysisResult(result);
   };
-  };
 
   const handleSaveToDashboard = () => {
     if (!analysisResult) return;
@@ -412,11 +411,11 @@ export default function NewAnalysis() {
     setUploadedFile(null);
     setFormValues({
       name: "",
-      category: "Kurti",
+      category: "kurtis",
       price: "",
       fabric: "Cotton Linen Blend",
       pattern: "Floral",
-      season: "Festive",
+      season: "summer",
       sleeve: "Three-Quarter",
       neckline: "V-Neck",
       silhouette: "A-Line",
@@ -733,8 +732,17 @@ export default function NewAnalysis() {
                                 onChange={(e) => setFormValues({...formValues, category: e.target.value})}
                                 className="h-10 w-full rounded-lg border border-border bg-surface-secondary px-3 text-[13px] outline-none transition-all focus:border-maroon/40 focus:ring-2 focus:ring-maroon/10"
                               >
-                                {["Kurti", "Saree", "Co-ords", "Salwar", "Dupatta"].map((c) => (
-                                  <option key={c} value={c}>{c}</option>
+                                {[
+                                  { label: "Kurtis", value: "kurtis" },
+                                  { label: "Coords", value: "coords" },
+                                  { label: "Sarees", value: "sarees" },
+                                  { label: "Salwar Sets", value: "salwar_sets" },
+                                  { label: "Unstitched", value: "unstitched" },
+                                  { label: "Tops", value: "tops" },
+                                  { label: "Dupattas", value: "dupattas" },
+                                  { label: "Occasion Wear", value: "occasion_wear" }
+                                ].map((c) => (
+                                  <option key={c.value} value={c.value}>{c.label}</option>
                                 ))}
                               </select>
                             </div>
@@ -784,8 +792,13 @@ export default function NewAnalysis() {
                                 onChange={(e) => setFormValues({...formValues, season: e.target.value})}
                                 className="h-10 w-full rounded-lg border border-border bg-surface-secondary px-3 text-[13px] outline-none transition-all focus:border-maroon/40 focus:ring-2 focus:ring-maroon/10"
                               >
-                                {["Summer", "Winter", "Monsoon", "Festive"].map((s) => (
-                                  <option key={s} value={s}>{s}</option>
+                                {[
+                                  { label: "Summer", value: "summer" },
+                                  { label: "Winter", value: "winter" },
+                                  { label: "Monsoon", value: "monsoon" },
+                                  { label: "Festive", value: "festive" }
+                                ].map((s) => (
+                                  <option key={s.value} value={s.value}>{s.label}</option>
                                 ))}
                               </select>
                             </div>

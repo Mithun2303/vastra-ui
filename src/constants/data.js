@@ -4,7 +4,7 @@ export const CITIES = [
   "Erode",
   "Madurai",
   "Kerala",
-  "Chennai",
+  "Multiple Cities",
 ];
 
 export const NAV_LINKS = [
