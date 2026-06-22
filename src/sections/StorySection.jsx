@@ -39,7 +39,7 @@ export default function StorySection() {
               text-maroon
             "
           >
-            Why VASTRA Exists
+            Why TRYND Exists
           </p>
 
           <h2
@@ -175,7 +175,7 @@ export default function StorySection() {
             </motion.p>
           </div>
 
-          {/* VASTRA */}
+          {/* TRYND */}
 
           <div>
             <motion.p
@@ -194,8 +194,8 @@ export default function StorySection() {
                 tracking-[0.3em]
                 text-maroon
               "
-            >
-              With VASTRA
+            > 
+              With TRYND
             </motion.p>
 
             <div className="mt-10 space-y-8">

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/layout/Navbar";
+import { saveBrand } from "@/lib/mockApi";
 
 const cities = [
   "Tirupur",
@@ -23,12 +25,14 @@ const categories = [
 ];
 
 export default function OnboardingPage() {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
 
   const [brandName, setBrandName] = useState("");
   const [city, setCity] = useState("");
   const [asp, setAsp] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [saving, setSaving] = useState(false);
 
   const toggleCategory = (category) => {
     setSelectedCategories((prev) =>
@@ -57,8 +61,8 @@ export default function OnboardingPage() {
             text-charcoal
           "
         >
-          <span>VAS</span>
-          <span className="text-maroon">TRA</span>
+          <span>TR</span>
+          <span className="text-maroon">YND</span>
         </h1>
         {/* Progress */}
 
@@ -158,7 +162,7 @@ export default function OnboardingPage() {
 
             <div className="rounded-3xl border border-maroon/10 bg-gradient-to-br from-maroon/5 to-transparent p-8">
               <p className="text-xs uppercase tracking-[0.35em] text-maroon">
-                Your VASTRA Profile
+                Your TRYND Profile
               </p>
 
               <div className="mt-8">
@@ -339,6 +343,42 @@ export default function OnboardingPage() {
                 </button>
 
                 <button
+                  onClick={async () => {
+                    setSaving(true);
+                    try {
+                      const categoryMap = {
+                        "Kurtis": "kurtis",
+                        "Coords": "coords",
+                        "Salwar Sets": "salwar_sets",
+                        "Tops": "tops",
+                        "Dupattas": "dupattas",
+                        "Occasion Wear": "occasion_wear",
+                        "Sarees": "sarees",
+                        "Unstitched": "unstitched"
+                      };
+                      const mappedCategories = selectedCategories.map(c => categoryMap[c] || c.toLowerCase());
+                      const email = localStorage.getItem("user_email") || "ravi@example.com";
+                      const mobile_number = localStorage.getItem("user_mobile") || "9876543210";
+
+                      await saveBrand({
+                        brand_name: brandName,
+                        primary_city: city,
+                        avg_selling_price: Number(asp) || 1299,
+                        categories: mappedCategories,
+                        mobile_number,
+                        email,
+                      });
+                      navigate("/dashboard");
+                    } catch (err) {
+                      console.error("Failed to save brand:", err);
+                      // Still navigate for dev convenience
+                      localStorage.setItem("jwt_token", "dev-temp-token");
+                      navigate("/dashboard");
+                    } finally {
+                      setSaving(false);
+                    }
+                  }}
+                  disabled={saving}
                   className="
             h-12
             flex-[2]

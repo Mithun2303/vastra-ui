@@ -86,7 +86,7 @@ export default function SignalsSection() {
             "
           >
             Every production decision starts
-            with a question. VASTRA provides
+            with a question. TRYND provides
             the intelligence needed before
             capital is committed.
           </p>

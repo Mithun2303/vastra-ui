@@ -1,7 +1,10 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { NAV_LINKS } from "../../constants/data";
 
 export default function Navbar() {
+    const navigate = useNavigate();
+
     return (
         <motion.nav
             initial={{
@@ -47,8 +50,8 @@ export default function Navbar() {
             text-charcoal
           "
                 >
-                    <span>VAS</span>
-                    <span className="text-maroon">TRA</span>
+                    <span>TR</span>
+                    <span className="text-maroon">YND</span>
                 </h1>
 
                 <div className="hidden md:flex items-center gap-8">
@@ -68,21 +71,49 @@ export default function Navbar() {
                     ))}
                 </div>
 
-                <button
-                    className="
-            rounded-xl
-            bg-maroon
-            px-5
-            py-2
-            text-sm
-            font-medium
-            text-white
-            transition-all
-            hover:scale-105
-          "
-                >
-                    Join Waitlist
-                </button>
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={() => navigate("/login")}
+                        className="
+              rounded-xl
+              border
+              border-maroon/30
+              px-5
+              py-2
+              text-sm
+              font-medium
+              text-maroon
+              transition-all
+              duration-300
+              hover:bg-maroon
+              hover:text-white
+              hover:scale-105
+              hover:border-maroon
+            "
+                    >
+                        Sign In / Sign Up
+                    </button>
+
+                    <button
+                        // onClick={() => navigate("/login")}
+                        className="
+              rounded-xl
+              bg-maroon
+              px-5
+              py-2
+              text-sm
+              font-medium
+              text-white
+              transition-all
+              duration-300
+              hover:scale-105
+              hover:shadow-lg
+              hover:shadow-maroon/30
+            "
+                    >
+                        Join Waitlist
+                    </button>
+                </div>
             </div>
         </motion.nav>
     );

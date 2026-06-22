@@ -17,7 +17,7 @@ export default function AuthLayout({ children }) {
 
         <div className="relative z-10 flex h-full flex-col justify-between p-16">
           <p className="text-md uppercase tracking-[0.45em] text-black">
-            VASTRA
+            TRYND
           </p>
 
           <div>

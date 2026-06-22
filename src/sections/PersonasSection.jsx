@@ -10,14 +10,14 @@ const personas = [
     statement:
       "A wrong production decision can cost months of inventory.",
     description:
-      "You decide what gets made, when it gets made, and how much gets produced. VASTRA helps you understand demand before you commit capital.",
+      "You decide what gets made, when it gets made, and how much gets produced. TRYND helps you understand demand before you commit capital.",
   },
   {
     title: "Marketing Manager",
     statement:
       "A wrong campaign can cost weeks of momentum.",
     description:
-      "You create content, manage reels, monitor competitors and drive engagement. VASTRA helps you identify trends before they become mainstream.",
+      "You create content, manage reels, monitor competitors and drive engagement. TRYND helps you identify trends before they become mainstream.",
   }
 ];
 
@@ -38,7 +38,7 @@ export default function PersonasSection() {
                 text-maroon
               "
             >
-              Who Opens VASTRA?
+              Who Opens TRYND?
             </p>
 
             <h2

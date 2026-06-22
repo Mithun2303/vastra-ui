@@ -8,7 +8,7 @@ export default function Footer() {
           {/* Brand */}
           <div>
             <h2 className="font-playfair text-4xl font-bold tracking-[0.25em] text-white">
-              VASTRA
+              TRYND
             </h2>
 
             <p className="mt-3 text-xs uppercase tracking-[0.35em] text-maroon">
@@ -110,7 +110,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-14 border-t border-white/10 pt-6">
           <div className="flex flex-col items-center justify-between gap-4 text-sm text-neutral-500 md:flex-row">
-            <p>© 2026 VASTRA. All rights reserved.</p>
+            <p>© 2026 TRYND. All rights reserved.</p>
 
             <div className="flex gap-6">
               <a href="/privacy" className="hover:text-white transition">

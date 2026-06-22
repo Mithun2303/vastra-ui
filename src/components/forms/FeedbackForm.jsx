@@ -55,7 +55,7 @@ export default function FeedbackForm() {
             text-neutral-400
           "
                 >
-                    We'll reach out when VASTRA
+                    We'll reach out when TRYND
                     launches.
                 </p>
             </motion.div>

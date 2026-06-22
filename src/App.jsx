@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import { ProtectedRoute } from './components/shared/ProtectedRoute';
@@ -6,6 +6,8 @@ import NotFound from './pages/NotFound';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import OnboardingPage from './pages/OnboardingPage';
+import NewAnalysis from './pages/NewAnalysis';
+
 
 
 function App() {
@@ -26,12 +28,11 @@ function App() {
           }
         />
         
-        {/* Redirect root to dashboard (protected) */}
         <Route
-          path="/"
+          path="/analysis"
           element={
             <ProtectedRoute>
-              <Navigate to="/dashboard" replace />
+              <NewAnalysis />
             </ProtectedRoute>
           }
         />

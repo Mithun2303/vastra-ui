@@ -1,8 +1,33 @@
-import SocialLogin from "./SocialLogin";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "@/lib/mockApi";
+import SocialLogin from "./SocialLogin";
 
 export default function LoginForm({ onSwitch }) {
-const nav = useNavigate();
+  const nav = useNavigate();
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await loginUser(identifier, password);
+      if (res.onboarding_complete) {
+        nav("/dashboard");
+      } else {
+        nav("/onboarding");
+      }
+    } catch (err) {
+      setError(err.message || "Login failed");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -18,17 +43,23 @@ const nav = useNavigate();
 
       <SocialLogin />
 
-      <form className="space-y-4">
+      <form onSubmit={handleLogin} className="space-y-4">
         <input
-          type="email"
-          placeholder="Email Address"
-          className="h-14 w-full rounded-2xl border border-black/10 px-5"
+          type="text"
+          placeholder="Email or Mobile Number"
+          value={identifier}
+          onChange={(e) => setIdentifier(e.target.value)}
+          required
+          className="h-14 w-full rounded-2xl border border-black/10 px-5 outline-none focus:border-maroon"
         />
 
         <input
           type="password"
           placeholder="Password"
-          className="h-14 w-full rounded-2xl border border-black/10 px-5"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="h-14 w-full rounded-2xl border border-black/10 px-5 outline-none focus:border-maroon"
         />
 
         <div className="text-right">
@@ -40,12 +71,16 @@ const nav = useNavigate();
           </button>
         </div>
 
+        {error && (
+          <p className="text-sm text-red-500 text-center">{error}</p>
+        )}
+
         <button
           type="submit"
-          onClick={()=>nav("/onboarding")}
-          className="h-14 w-full rounded-2xl bg-maroon text-white"
+          disabled={loading}
+          className="h-14 w-full rounded-2xl bg-maroon text-white transition-all hover:scale-[1.01] disabled:opacity-50"
         >
-          Sign In
+          {loading ? "Signing in..." : "Sign In"}
         </button>
       </form>
 

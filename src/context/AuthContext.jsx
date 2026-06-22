@@ -6,7 +6,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const { setAuthTokens, clearAuthTokens, isAuthenticated, get } = useAxios();
+    const { login: setAuthToken, logout: clearAuthToken, isAuthenticated, get, post } = useAxios();
 
     useEffect(() => {
         // Check if user is logged in on mount
@@ -17,24 +17,27 @@ export const AuthProvider = ({ children }) => {
                     setUser(userData);
                 } catch (error) {
                     console.error('Failed to fetch user', error);
-                    clearAuthTokens();
+                    clearAuthToken();
                 }
             }
             setLoading(false);
         };
         fetchUser();
-    }, []);
+    }, [isAuthenticated, get, clearAuthToken]);
 
-    const login = async (email, password) => {
-        const response = await post('/auth/login', { email, password });
-        const { accessToken, refreshToken, user: userData } = response;
-        setAuthTokens(accessToken, refreshToken);
+    const login = async (identifier, password) => {
+        const response = await post('/auth/login', { identifier, password });
+        const { token, user_id, onboarding_complete } = response;
+        setAuthToken(token);
+        
+        // Fetch full profile details or set basic user context
+        const userData = { user_id, onboarding_complete };
         setUser(userData);
-        return userData;
+        return response;
     };
 
     const logout = () => {
-        clearAuthTokens();
+        clearAuthToken();
         setUser(null);
     };
 

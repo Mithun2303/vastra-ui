@@ -206,6 +206,7 @@ export default function Hero() {
           "
                 >
                     <button
+                        onClick={() => document.getElementById("waitlist")?.scrollIntoView({ behavior: "smooth" })}
                         className="
               rounded-xl
               bg-maroon
@@ -214,6 +215,7 @@ export default function Hero() {
               font-semibold
               text-white
               transition-all
+              duration-300
               hover:scale-105
               hover:shadow-xl
               hover:shadow-maroon/30

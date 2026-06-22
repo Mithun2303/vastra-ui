@@ -10,7 +10,7 @@ export default function SplashScreen({
     useEffect(() => {
         setTimeout(() => setPhase(1), 500);
     }, []);
-    const letters = "VASTRA".split("");
+    const letters = "TRYND".split("");
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -118,8 +118,8 @@ export default function SplashScreen({
         text-black
       "
     >
-      <span>VAS</span>
-      <span className="text-maroon">TRA</span>
+      <span>TR</span>
+      <span className="text-maroon">YND</span>
     </motion.h1>
 
     {/* Edition */}

@@ -1,0 +1,26 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "name": "Demo User",
+      "email": "demo@vastra.in",
+      "password": "demo123"
+    }
+  ],
+  "brands": [
+    {
+      "userId": 1,
+      "brandName": "qwerty",
+      "city": "Coimbatore",
+      "asp": "800",
+      "categories": [
+        "Salwar Sets",
+        "Occasion Wear",
+        "Dupattas"
+      ],
+      "createdAt": "2026-06-21T17:24:19.081Z",
+      "id": "1"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

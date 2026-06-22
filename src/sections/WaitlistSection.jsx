@@ -3,7 +3,7 @@ import FeedbackForm from "../components/forms/FeedbackForm";
 
 export default function WaitlistSection() {
   return (
-    <section className="mx-auto max-w-4xl px-6 py-24">
+    <section id="waitlist" className="mx-auto max-w-4xl px-6 py-24">
       <div
         className="
           relative
@@ -40,7 +40,7 @@ export default function WaitlistSection() {
               text-white
             "
           >
-            Join The VASTRA Waitlist
+            Join The TRYND Waitlist
           </h2>
 
           <p className="mt-4 text-neutral-400">
