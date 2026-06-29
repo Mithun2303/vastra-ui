@@ -19,25 +19,37 @@ const ICON_MAP = {
   settings: Settings,
 };
 
-export default function Sidebar({ brand, onLogout, collapsed }) {
+export default function Sidebar({ brand, onLogout, collapsed, mobileOpen, onClose }) {
   const location = useLocation();
   const navigate = useNavigate();
 
   const activeId = location.pathname.includes("analysis") ? "new-analysis" : "dashboard";
+  const isCollapsed = collapsed && !mobileOpen;
 
   return (
     <aside
-      className={`fixed left-0 top-0 z-40 flex h-screen flex-col border-r border-white/[0.06] bg-sidebar transition-all duration-300 ${
-        collapsed ? "w-[72px]" : "w-[260px]"
+      className={`flex h-screen flex-col border-r border-white/[0.06] bg-sidebar transition-all duration-300 ${
+        isCollapsed ? "w-[72px]" : "w-[260px]"
       }`}
     >
-      <div className={`flex h-16 items-center border-b border-white/[0.06] px-5 ${collapsed ? "justify-center" : ""}`}>
-        {collapsed ? (
+      <div className={`flex h-16 items-center border-b border-white/[0.06] px-5 ${isCollapsed ? "justify-center" : "justify-between"}`}>
+        {isCollapsed ? (
           <span className="font-playfair text-lg font-bold text-white">T</span>
         ) : (
           <h1 className="font-playfair text-xl font-bold tracking-[0.15em] text-white">
             TRYN<span className="text-maroon-light">D</span>
           </h1>
+        )}
+
+        {/* Mobile close button */}
+        {!isCollapsed && (
+          <button
+            onClick={onClose}
+            className="rounded-lg p-1.5 text-sidebar-text hover:bg-sidebar-hover hover:text-white md:hidden"
+            title="Close Navigation"
+          >
+            <ChevronLeft size={18} />
+          </button>
         )}
       </div>
 
@@ -56,13 +68,14 @@ export default function Sidebar({ brand, onLogout, collapsed }) {
                   } else if (item.id === "new-analysis") {
                     navigate("/analysis");
                   }
+                  if (onClose) onClose(); // Close drawer on mobile after clicking
                 }}
-                title={collapsed ? item.label : undefined}
+                title={isCollapsed ? item.label : undefined}
                 className={`group flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium transition-all duration-200 ${
                   isActive
                     ? "bg-sidebar-active text-sidebar-text-active"
                     : "text-sidebar-text hover:bg-sidebar-hover hover:text-sidebar-text-active"
-                } ${collapsed ? "justify-center" : ""}`}
+                } ${isCollapsed ? "justify-center" : ""}`}
               >
                 <Icon
                   size={18}
@@ -70,8 +83,8 @@ export default function Sidebar({ brand, onLogout, collapsed }) {
                     isActive ? "text-maroon-light" : "text-sidebar-text group-hover:text-sidebar-text-active"
                   }`}
                 />
-                {!collapsed && <span>{item.label}</span>}
-                {isActive && !collapsed && (
+                {!isCollapsed && <span>{item.label}</span>}
+                {isActive && !isCollapsed && (
                   <div className="ml-auto h-1.5 w-1.5 rounded-full bg-maroon-light" />
                 )}
               </button>
@@ -80,8 +93,8 @@ export default function Sidebar({ brand, onLogout, collapsed }) {
         </div>
       </nav>
 
-      <div className={`border-t border-white/[0.06] p-4 ${collapsed ? "px-3" : ""}`}>
-        {collapsed ? (
+      <div className={`border-t border-white/[0.06] p-4 ${isCollapsed ? "px-3" : ""}`}>
+        {isCollapsed ? (
           <div className="flex justify-center">
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-maroon text-xs font-bold text-white">
               {brand?.brandName?.charAt(0) || "T"}

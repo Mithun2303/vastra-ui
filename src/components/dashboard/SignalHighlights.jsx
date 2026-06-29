@@ -72,7 +72,7 @@ export default function SignalHighlights() {
         </span>
       </div>
 
-      <div className="stagger-children grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="stagger-children grid gap-3 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {SIGNAL_HIGHLIGHTS.map((signal) => {
           const styles = STATUS_STYLES[signal.color] || STATUS_STYLES.green;
 
@@ -81,8 +81,8 @@ export default function SignalHighlights() {
               key={signal.id}
               className="group rounded-xl border border-border bg-surface p-4 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_4px_20px_rgba(0,0,0,0.04)]"
             >
-              <div className="mb-3 flex items-start justify-between">
-                <p className="text-[11px] font-medium text-muted leading-tight">
+              <div className="mb-3 flex items-start justify-between gap-1.5">
+                <p className="text-[11px] font-medium text-muted leading-tight min-w-0 flex-1">
                   {signal.label}
                 </p>
                 <Sparkline data={signal.sparkline} color={signal.color} />

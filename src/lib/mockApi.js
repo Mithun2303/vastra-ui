@@ -22,6 +22,65 @@ realApi.interceptors.request.use((config) => {
   return config;
 });
 
+// ─── LocalStorage DB Helper Functions ─────────────────────────
+
+function getLocalUsers() {
+  const users = localStorage.getItem("mock_users");
+  if (!users) {
+    const defaultUsers = [
+      {
+        id: "1",
+        name: "Demo User",
+        email: "demo@vastra.in",
+        password: "demo123"
+      }
+    ];
+    localStorage.setItem("mock_users", JSON.stringify(defaultUsers));
+    return defaultUsers;
+  }
+  try {
+    return JSON.parse(users);
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveLocalUsers(users) {
+  localStorage.setItem("mock_users", JSON.stringify(users));
+}
+
+function getLocalBrands() {
+  const brands = localStorage.getItem("mock_brands");
+  if (!brands) {
+    const defaultBrands = [
+      {
+        userId: 1,
+        brandName: "qwerty",
+        city: "Coimbatore",
+        asp: "800",
+        categories: [
+          "Salwar Sets",
+          "Occasion Wear",
+          "Dupattas"
+        ],
+        createdAt: "2026-06-21T17:24:19.081Z",
+        id: "1"
+      }
+    ];
+    localStorage.setItem("mock_brands", JSON.stringify(defaultBrands));
+    return defaultBrands;
+  }
+  try {
+    return JSON.parse(brands);
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveLocalBrands(brands) {
+  localStorage.setItem("mock_brands", JSON.stringify(brands));
+}
+
 // ─── Users / Auth ───────────────────────────────────────────
 
 export async function loginUser(identifier, password) {
@@ -33,31 +92,57 @@ export async function loginUser(identifier, password) {
   } catch (err) {
     console.warn("Real backend login failed, falling back to mock json-server:", err.message);
 
-    const { data: users } = await api.get("/users", {
-      params: { email: identifier, password },
-    });
+    try {
+      const { data: users } = await api.get("/users", {
+        params: { email: identifier, password },
+      });
 
-    if (users.length === 0) {
-      throw new Error("Invalid email or password");
+      if (users.length === 0) {
+        throw new Error("Invalid email or password");
+      }
+
+      const user = users[0];
+      const token = `dev-token-${user.id}`;
+      localStorage.setItem("jwt_token", token);
+      localStorage.setItem("user_id", String(user.id));
+
+      // Determine onboarding completion by checking if brand profile exists
+      const { data: brands } = await api.get("/brands", {
+        params: { userId: Number(user.id) },
+      });
+      const onboarding_complete = brands.length > 0;
+
+      return {
+        user_id: user.id,
+        token,
+        onboarding_complete,
+        redirect_to: onboarding_complete ? "/dashboard" : "/onboarding",
+      };
+    } catch (mockErr) {
+      console.warn("Mock json-server failed, falling back to client-side storage:", mockErr.message);
+
+      const users = getLocalUsers();
+      const user = users.find(u => (u.email === identifier || String(u.id) === String(identifier)) && u.password === password);
+
+      if (!user) {
+        throw new Error("Invalid email or password");
+      }
+
+      const token = `dev-token-${user.id}`;
+      localStorage.setItem("jwt_token", token);
+      localStorage.setItem("user_id", String(user.id));
+
+      const brands = getLocalBrands();
+      const userBrands = brands.filter(b => Number(b.userId) === Number(user.id));
+      const onboarding_complete = userBrands.length > 0;
+
+      return {
+        user_id: user.id,
+        token,
+        onboarding_complete,
+        redirect_to: onboarding_complete ? "/dashboard" : "/onboarding",
+      };
     }
-
-    const user = users[0];
-    const token = `dev-token-${user.id}`;
-    localStorage.setItem("jwt_token", token);
-    localStorage.setItem("user_id", String(user.id));
-
-    // Determine onboarding completion by checking if brand profile exists
-    const { data: brands } = await api.get("/brands", {
-      params: { userId: Number(user.id) },
-    });
-    const onboarding_complete = brands.length > 0;
-
-    return {
-      user_id: user.id,
-      token,
-      onboarding_complete,
-      redirect_to: onboarding_complete ? "/dashboard" : "/onboarding",
-    };
   }
 }
 
@@ -75,30 +160,60 @@ export async function registerUser({ name, mobile_number, email, password }) {
   } catch (err) {
     console.warn("Real backend registration failed, falling back to mock json-server:", err.message);
 
-    const { data: existing } = await api.get("/users", {
-      params: { email },
-    });
+    try {
+      const { data: existing } = await api.get("/users", {
+        params: { email },
+      });
 
-    if (existing.length > 0) {
-      throw new Error("Email already registered");
+      if (existing.length > 0) {
+        throw new Error("Email already registered");
+      }
+
+      const { data: user } = await api.post("/users", {
+        name,
+        email,
+        password,
+        mobile_number,
+      });
+
+      const token = `dev-token-${user.id}`;
+      localStorage.setItem("jwt_token", token);
+      localStorage.setItem("user_id", String(user.id));
+
+      return {
+        user_id: user.id,
+        status: "registered",
+        next_step: "/onboarding",
+      };
+    } catch (mockErr) {
+      console.warn("Mock json-server failed, falling back to client-side storage:", mockErr.message);
+
+      const users = getLocalUsers();
+      const existing = users.find(u => u.email === email);
+      if (existing) {
+        throw new Error("Email already registered");
+      }
+
+      const newUser = {
+        id: String(users.length + 1),
+        name,
+        email,
+        password,
+        mobile_number
+      };
+      users.push(newUser);
+      saveLocalUsers(users);
+
+      const token = `dev-token-${newUser.id}`;
+      localStorage.setItem("jwt_token", token);
+      localStorage.setItem("user_id", String(newUser.id));
+
+      return {
+        user_id: newUser.id,
+        status: "registered",
+        next_step: "/onboarding",
+      };
     }
-
-    const { data: user } = await api.post("/users", {
-      name,
-      email,
-      password,
-      mobile_number,
-    });
-
-    const token = `dev-token-${user.id}`;
-    localStorage.setItem("jwt_token", token);
-    localStorage.setItem("user_id", String(user.id));
-
-    return {
-      user_id: user.id,
-      status: "registered",
-      next_step: "/onboarding",
-    };
   }
 }
 
@@ -129,10 +244,6 @@ export async function saveBrand({ brand_name, primary_city, avg_selling_price, c
 
     const userId = getCurrentUserId() || "1";
 
-    const { data: existing } = await api.get("/brands", {
-      params: { userId: Number(userId) },
-    });
-
     const brandData = {
       userId: Number(userId),
       brandName: brand_name,
@@ -144,20 +255,57 @@ export async function saveBrand({ brand_name, primary_city, avg_selling_price, c
       createdAt: new Date().toISOString(),
     };
 
-    if (existing.length > 0) {
-      const { data } = await api.put(`/brands/${existing[0].id}`, brandData);
-      return {
-        brand_id: data.id,
-        onboarding_status: "completed",
-        redirect_to: "/dashboard",
-      };
-    } else {
-      const { data } = await api.post("/brands", brandData);
-      return {
-        brand_id: data.id,
-        onboarding_status: "completed",
-        redirect_to: "/dashboard",
-      };
+    try {
+      const { data: existing } = await api.get("/brands", {
+        params: { userId: Number(userId) },
+      });
+
+      if (existing.length > 0) {
+        const { data } = await api.put(`/brands/${existing[0].id}`, brandData);
+        return {
+          brand_id: data.id,
+          onboarding_status: "completed",
+          redirect_to: "/dashboard",
+        };
+      } else {
+        const { data } = await api.post("/brands", brandData);
+        return {
+          brand_id: data.id,
+          onboarding_status: "completed",
+          redirect_to: "/dashboard",
+        };
+      }
+    } catch (mockErr) {
+      console.warn("Mock json-server failed, falling back to client-side storage:", mockErr.message);
+
+      const brands = getLocalBrands();
+      const existingIdx = brands.findIndex(b => Number(b.userId) === Number(userId));
+
+      if (existingIdx > -1) {
+        const updatedBrand = {
+          ...brands[existingIdx],
+          ...brandData
+        };
+        brands[existingIdx] = updatedBrand;
+        saveLocalBrands(brands);
+        return {
+          brand_id: updatedBrand.id,
+          onboarding_status: "completed",
+          redirect_to: "/dashboard",
+        };
+      } else {
+        const newBrand = {
+          ...brandData,
+          id: String(brands.length + 1)
+        };
+        brands.push(newBrand);
+        saveLocalBrands(brands);
+        return {
+          brand_id: newBrand.id,
+          onboarding_status: "completed",
+          redirect_to: "/dashboard",
+        };
+      }
     }
   }
 }
@@ -180,14 +328,27 @@ export async function getBrand() {
 
   const userId = getCurrentUserId() || "1";
 
-  const { data: brands } = await api.get("/brands", {
-    params: { userId: Number(userId) },
-  });
+  try {
+    const { data: brands } = await api.get("/brands", {
+      params: { userId: Number(userId) },
+    });
 
-  return brands.length > 0 ? brands[0] : null;
+    return brands.length > 0 ? brands[0] : null;
+  } catch (mockErr) {
+    console.warn("Mock json-server failed, falling back to client-side storage:", mockErr.message);
+
+    const brands = getLocalBrands();
+    const userBrands = brands.filter(b => Number(b.userId) === Number(userId));
+    return userBrands.length > 0 ? userBrands[0] : null;
+  }
 }
 
 export async function getAllBrands() {
-  const { data } = await api.get("/brands");
-  return data;
+  try {
+    const { data } = await api.get("/brands");
+    return data;
+  } catch (mockErr) {
+    console.warn("Mock json-server failed, falling back to client-side storage:", mockErr.message);
+    return getLocalBrands();
+  }
 }

@@ -132,7 +132,7 @@ export default function RecentAnalyses() {
           </div>
         </div>
 
-        <div className="grid grid-cols-[1fr_100px_100px_100px_100px_80px] items-center gap-4 border-b border-border-light px-8 py-3">
+        <div className="hidden md:grid grid-cols-[1fr_100px_100px_100px_100px_80px] items-center gap-4 border-b border-border-light px-8 py-3">
           {["Product", "Category", "Score", "Decision", "Analyzed", ""].map(
             (col) => (
               <span
@@ -152,9 +152,9 @@ export default function RecentAnalyses() {
             return (
               <div
                 key={product.id}
-                className="group grid grid-cols-[1fr_100px_100px_100px_100px_80px] items-center gap-4 px-8 py-4 transition-colors hover:bg-surface-secondary"
+                className="group flex flex-row items-center justify-between gap-3 px-4 py-4 md:grid md:grid-cols-[1fr_100px_100px_100px_100px_80px] md:items-center md:gap-4 md:px-8 md:py-4 transition-colors hover:bg-surface-secondary"
               >
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 min-w-0">
                   <div className="h-9 w-9 flex-shrink-0 overflow-hidden rounded-lg border border-border bg-surface-secondary">
                     {product.image ? (
                       <img
@@ -175,16 +175,35 @@ export default function RecentAnalyses() {
                       </div>
                     )}
                   </div>
-                  <span className="text-[13px] font-medium text-charcoal">
-                    {product.name}
-                  </span>
+                  
+                  <div className="flex flex-col min-w-0">
+                    <span className="truncate text-[13px] font-medium text-charcoal leading-snug">
+                      {product.name}
+                    </span>
+                    
+                    {/* Mobile metadata row */}
+                    <div className="mt-1 flex flex-wrap items-center gap-1.5 text-[10px] text-muted md:hidden">
+                      <span>{product.category}</span>
+                      <span>•</span>
+                      <span className="font-semibold text-charcoal">Score: {product.score}</span>
+                      <span>•</span>
+                      <span
+                        className={`inline-flex items-center gap-0.5 rounded-full border px-1.5 py-0.2 text-[9px] font-bold ${decision.bg} ${decision.text}`}
+                      >
+                        {decision.label}
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
-                <span className="text-[12px] text-muted">{product.category}</span>
+                {/* Desktop-only Columns */}
+                <span className="hidden md:block text-[12px] text-muted">{product.category}</span>
 
-                <ScoreBar score={product.score} />
+                <div className="hidden md:block">
+                  <ScoreBar score={product.score} />
+                </div>
 
-                <div>
+                <div className="hidden md:block">
                   <span
                     className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold ${decision.bg} ${decision.text}`}
                   >
@@ -193,17 +212,19 @@ export default function RecentAnalyses() {
                   </span>
                 </div>
 
-                <span className="text-[12px] text-muted">
+                <span className="hidden md:block text-[12px] text-muted">
                   {product.analyzedAt}
                 </span>
 
-                <button
-                  onClick={() => handleOpenProduct(product)}
-                  className="flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-medium text-maroon opacity-0 transition-all hover:bg-maroon/5 group-hover:opacity-100"
-                >
-                  <Eye size={13} />
-                  View
-                </button>
+                <div className="flex-shrink-0">
+                  <button
+                    onClick={() => handleOpenProduct(product)}
+                    className="flex items-center gap-1 rounded-md px-2 py-1 text-[11px] font-medium text-maroon bg-maroon/5 md:bg-transparent md:opacity-0 transition-all hover:bg-maroon/10 md:group-hover:opacity-100"
+                  >
+                    <Eye size={13} />
+                    View
+                  </button>
+                </div>
               </div>
             );
           })}

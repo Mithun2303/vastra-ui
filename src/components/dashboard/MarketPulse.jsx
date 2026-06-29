@@ -56,7 +56,7 @@ function SignalBar({ label, value, direction, color }) {
 
   return (
     <div className="flex items-center gap-3">
-      <span className="w-32 text-[13px] font-medium text-charcoal">{label}</span>
+      <span className="w-24 sm:w-32 text-[12px] sm:text-[13px] font-medium text-charcoal truncate">{label}</span>
       <div className="flex-1">
         <div className="h-2 overflow-hidden rounded-full bg-border-light">
           <div
@@ -65,7 +65,7 @@ function SignalBar({ label, value, direction, color }) {
           />
         </div>
       </div>
-      <div className={`flex items-center gap-1 ${c.text}`}>
+      <div className={`flex items-center gap-1 ${c.text} flex-shrink-0`}>
         <DirIcon size={13} />
         <span className="text-[12px] font-semibold">{value}</span>
       </div>
@@ -77,23 +77,23 @@ export default function MarketPulse() {
   const [selectedCity, setSelectedCity] = useState("Coimbatore");
 
   return (
-    <div className="animate-fade-in rounded-2xl border border-border bg-surface p-8">
-      <div className="mb-6 flex items-start justify-between">
+    <div className="animate-fade-in rounded-2xl border border-border bg-surface p-5 sm:p-8">
+      <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-maroon">
             Market Intelligence
           </p>
-          <h3 className="mt-1 text-xl font-semibold text-charcoal">
+          <h3 className="mt-1 text-lg sm:text-xl font-semibold text-charcoal">
             Today's Market Pulse
           </h3>
         </div>
 
-        <div className="flex gap-1.5">
+        <div className="flex flex-wrap gap-1.5">
           {MARKET_PULSE.cities.map((city) => (
             <button
               key={city}
               onClick={() => setSelectedCity(city)}
-              className={`rounded-lg px-3 py-1.5 text-[11px] font-semibold tracking-wide transition-all ${
+              className={`rounded-lg px-2.5 py-1.5 text-[10px] sm:text-[11px] font-semibold tracking-wide transition-all ${
                 selectedCity === city
                   ? "bg-charcoal text-white"
                   : "bg-surface-secondary text-muted hover:bg-border-light hover:text-charcoal"
@@ -105,9 +105,9 @@ export default function MarketPulse() {
         </div>
       </div>
 
-      <div className="grid items-center gap-10 md:grid-cols-[auto_1fr]">
+      <div className="grid items-center gap-6 md:gap-10 md:grid-cols-[auto_1fr]">
         <div className="flex justify-center">
-          <CircularScore score={MARKET_PULSE.score} size={160} />
+          <CircularScore score={MARKET_PULSE.score} size={140} />
         </div>
 
         <div className="space-y-4">
