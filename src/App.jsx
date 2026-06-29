@@ -22,18 +22,18 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            <ProtectedRoute>
+          
               <Dashboard />
-            </ProtectedRoute>
+          
           }
         />
         
         <Route
           path="/analysis"
           element={
-            <ProtectedRoute>
+        
               <NewAnalysis />
-            </ProtectedRoute>
+          
           }
         />
         
