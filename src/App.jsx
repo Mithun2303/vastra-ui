@@ -7,6 +7,7 @@ import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import OnboardingPage from './pages/OnboardingPage';
 import NewAnalysis from './pages/NewAnalysis';
+import ProductsPage from './pages/ProductsPage';
 
 
 
@@ -34,6 +35,13 @@ function App() {
         
               <NewAnalysis />
           
+          }
+        />
+
+        <Route
+          path="/products"
+          element={
+            <ProductsPage />
           }
         />
         

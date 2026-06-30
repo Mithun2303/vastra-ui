@@ -23,7 +23,11 @@ export default function Sidebar({ brand, onLogout, collapsed, mobileOpen, onClos
   const location = useLocation();
   const navigate = useNavigate();
 
-  const activeId = location.pathname.includes("analysis") ? "new-analysis" : "dashboard";
+  const activeId = location.pathname.includes("analysis") 
+    ? "new-analysis" 
+    : location.pathname.includes("products") 
+      ? "products" 
+      : "dashboard";
   const isCollapsed = collapsed && !mobileOpen;
 
   return (
@@ -67,6 +71,8 @@ export default function Sidebar({ brand, onLogout, collapsed, mobileOpen, onClos
                     navigate("/dashboard");
                   } else if (item.id === "new-analysis") {
                     navigate("/analysis");
+                  } else if (item.id === "products") {
+                    navigate("/products");
                   }
                   if (onClose) onClose(); // Close drawer on mobile after clicking
                 }}
