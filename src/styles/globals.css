@@ -152,7 +152,6 @@ body {
   @apply border-maroon ring-2 ring-maroon/20;
 }
 
-/* ── Animations ──────────────────────────── */
 @keyframes slideUp {
   from {
     opacity: 0;
