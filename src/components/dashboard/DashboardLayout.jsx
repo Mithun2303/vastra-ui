@@ -19,9 +19,9 @@ export default function DashboardLayout({ brand, onLogout, children }) {
       <div
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
-        className={`fixed left-0 top-0 z-40 h-screen transition-transform duration-300 md:translate-x-0 ${
+        className={`fixed left-0 top-0 z-40 h-screen transition-all duration-300 md:translate-x-0 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
+        } ${!hovered ? "w-[72px]" : "w-[260px]"}`}
       >
         <Sidebar
           brand={brand}

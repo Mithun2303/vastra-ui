@@ -8,6 +8,8 @@ import AuthPage from './pages/AuthPage';
 import OnboardingPage from './pages/OnboardingPage';
 import NewAnalysis from './pages/NewAnalysis';
 import ProductsPage from './pages/ProductsPage';
+import SignalsPage from './pages/SignalsPage';
+import RecommendationsPage from './pages/RecommendationsPage';
 
 
 
@@ -42,6 +44,20 @@ function App() {
           path="/products"
           element={
             <ProductsPage />
+          }
+        />
+
+        <Route
+          path="/signals"
+          element={
+            <SignalsPage />
+          }
+        />
+
+        <Route
+          path="/recommendations"
+          element={
+            <RecommendationsPage />
           }
         />
         

@@ -27,7 +27,11 @@ export default function Sidebar({ brand, onLogout, collapsed, mobileOpen, onClos
     ? "new-analysis" 
     : location.pathname.includes("products") 
       ? "products" 
-      : "dashboard";
+      : location.pathname.includes("signals")
+        ? "signals"
+        : location.pathname.includes("recommendations")
+          ? "recommendations"
+          : "dashboard";
   const isCollapsed = collapsed && !mobileOpen;
 
   return (
@@ -73,6 +77,10 @@ export default function Sidebar({ brand, onLogout, collapsed, mobileOpen, onClos
                     navigate("/analysis");
                   } else if (item.id === "products") {
                     navigate("/products");
+                  } else if (item.id === "signals") {
+                    navigate("/signals");
+                  } else if (item.id === "recommendations") {
+                    navigate("/recommendations");
                   }
                   if (onClose) onClose(); // Close drawer on mobile after clicking
                 }}

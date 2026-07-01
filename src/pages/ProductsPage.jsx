@@ -48,6 +48,7 @@ export default function ProductsPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedDecision, setSelectedDecision] = useState("all");
+  const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
     const fetchBrand = async () => {
@@ -230,7 +231,7 @@ export default function ProductsPage() {
               return (
                 <div
                   key={product.id}
-                  onClick={() => setSelectedProduct(product)}
+                  onClick={() => { setActiveTab(0); setSelectedProduct(product); }}
                   className="group relative cursor-pointer overflow-hidden rounded-2xl border border-border bg-white shadow-[0_2px_16px_rgba(0,0,0,0.03)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_40px_rgba(0,0,0,0.08)] hover:border-maroon/15"
                 >
                   {/* Image */}
@@ -306,216 +307,226 @@ export default function ProductsPage() {
         const d = getProductDetails(selectedProduct);
         return (
           <div
-            className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-charcoal/80 backdrop-blur-md p-6 md:p-10"
+            className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/40 backdrop-blur-sm p-4 md:p-8"
             onClick={(e) => { if (e.target === e.currentTarget) setSelectedProduct(null); }}
           >
-            <div className="relative w-full max-w-[1100px] rounded-3xl bg-gradient-to-br from-[#faf8f4] to-[#f5f2ec] shadow-[0_40px_100px_rgba(0,0,0,0.35)] ring-1 ring-black/5 my-4 animate-slide-up">
+            <div className="relative w-full max-w-[900px] rounded-2xl bg-cream shadow-2xl ring-1 ring-black/5 my-4 animate-slide-up">
 
-              {/* ── MODAL HEADER ──────────────────── */}
-              <div className="flex items-center justify-between border-b border-black/[0.06] px-8 py-5">
-                <div className="flex items-center gap-4">
-                  {selectedProduct.image && (
-                    <div className="h-12 w-12 overflow-hidden rounded-xl border border-border shadow-sm">
-                      <img src={selectedProduct.image} alt="" className="h-full w-full object-cover object-top" />
-                    </div>
-                  )}
-                  <div>
-                    <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-maroon">Product Intelligence Report</span>
-                    <h2 className="font-playfair text-xl font-bold text-charcoal mt-0.5">{selectedProduct.name}</h2>
+              {/* ── HEADER ── */}
+              <div className="flex items-center gap-4 border-b border-border px-6 py-5">
+                {selectedProduct.image ? (
+                  <div className="h-14 w-14 overflow-hidden rounded-xl border border-border shadow-sm flex-shrink-0">
+                    <img src={selectedProduct.image} alt="" className="h-full w-full object-cover object-top" />
                   </div>
+                ) : (
+                  <div
+                    className="flex h-14 w-14 items-center justify-center rounded-xl border border-border flex-shrink-0"
+                    style={{ background: `linear-gradient(135deg, ${selectedProduct.color || "#8b7193"}30, ${selectedProduct.color || "#8b7193"}10)` }}
+                  >
+                    <span className="font-playfair text-xl font-bold text-charcoal/30">
+                      {selectedProduct.name.split(" ").map(n => n[0]).slice(0, 2).join("")}
+                    </span>
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2.5">
+                    <h2 className="font-playfair text-lg font-bold text-charcoal truncate">{selectedProduct.name}</h2>
+                    {(() => {
+                      const ds = DECISION_STYLES[selectedProduct.decision] || DECISION_STYLES.hold;
+                      return (
+                        <span className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[9px] font-bold ${ds.bg} ${ds.text} flex-shrink-0`}>
+                          <span className={`h-1.5 w-1.5 rounded-full ${ds.dot}`} />
+                          {ds.label}
+                        </span>
+                      );
+                    })()}
+                  </div>
+                  <p className="text-[11px] text-muted mt-0.5">{d.category} · Score: {selectedProduct.score}/100 · {selectedProduct.analyzedAt}</p>
                 </div>
                 <button
                   onClick={() => setSelectedProduct(null)}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-charcoal/60 transition-all hover:bg-maroon hover:text-white"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black/5 text-charcoal/50 transition-all hover:bg-maroon hover:text-white flex-shrink-0"
                 >
-                  <X size={16} />
+                  <X size={15} />
                 </button>
               </div>
 
-              {/* ── JOURNAL SPREAD ────────────────── */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 relative">
+              {/* ── TABS ── */}
+              <div className="border-b border-border px-6">
+                <div className="flex gap-0">
+                  {["Details", "Brand Match", "Social Intel"].map((tab, i) => (
+                    <button
+                      key={tab}
+                      onClick={() => setActiveTab(i)}
+                      className={`px-4 py-3 text-[12px] font-bold transition-all border-b-2 ${
+                        activeTab === i
+                          ? "border-maroon text-maroon"
+                          : "border-transparent text-muted hover:text-charcoal"
+                      }`}
+                    >
+                      {tab}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
-                {/* Center Spine — Desktop only */}
-                <div className="hidden lg:block absolute left-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-transparent via-black/[0.06] to-transparent -translate-x-1/2 z-10" />
+              {/* ── TAB CONTENT ── */}
+              <div className="p-6 min-h-[420px]">
 
-                {/* ═══ LEFT PAGE ═══════════════════ */}
-                <div className="p-7 lg:p-8 space-y-7 lg:border-r border-black/[0.04]">
+                {/* Tab 0: Details */}
+                {activeTab === 0 && (
+                  <div className="space-y-5 animate-fade-in">
+                    {/* Attributes */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      {[
+                        { label: "Fabric", value: d.fabric },
+                        { label: "Print Type", value: d.printType },
+                        { label: "Silhouette", value: d.silhouette },
+                        { label: "Season", value: d.season },
+                        { label: "Sleeve", value: d.sleeve },
+                        { label: "Neckline", value: d.neckline },
+                        { label: "Length", value: d.length },
+                        { label: "GSM", value: d.gsmWeight },
+                      ].map((item, i) => (
+                        <div key={i} className="rounded-xl bg-white border border-border-light p-3.5">
+                          <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted/60 block">{item.label}</span>
+                          <span className="text-[13px] font-bold text-charcoal block mt-1">{item.value}</span>
+                        </div>
+                      ))}
+                    </div>
 
-                  {/* Section Label */}
-                  <div className="flex items-center gap-3">
-                    <div className="h-[2px] w-5 bg-accent-green" />
-                    <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-accent-green">Product Identified</span>
-                  </div>
-
-                  {/* Attributes Grid */}
-                  <div className="grid grid-cols-2 gap-3">
-                    {[
-                      { label: "Brand Name", value: d.brandName },
-                      { label: "Style Name", value: d.styleName },
-                      { label: "Category", value: d.category },
-                      { label: "Season", value: d.season },
-                      { label: "Fabric", value: d.fabric },
-                      { label: "GSM Weight", value: d.gsmWeight },
-                      { label: "Print Type", value: d.printType },
-                      { label: "Pattern", value: d.pattern },
-                      { label: "Silhouette", value: d.silhouette },
-                      { label: "Sleeve", value: d.sleeve },
-                      { label: "Neckline", value: d.neckline },
-                      { label: "Length", value: d.length },
-                    ].map((item, i) => (
-                      <div key={i} className="border-t-2 border-charcoal/80 bg-white px-3.5 py-3 shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
-                        <span className="text-[8px] font-bold uppercase tracking-[0.18em] text-muted/70">{item.label}</span>
-                        <p className="font-playfair text-[13.5px] font-bold text-charcoal mt-0.5 leading-snug">{item.value}</p>
+                    {/* Colors */}
+                    <div className="rounded-xl bg-white border border-border-light p-4">
+                      <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted/60 block mb-3">Colour Palette</span>
+                      <div className="flex items-center gap-3">
+                        <div className="flex -space-x-1">
+                          {d.colors.map((c, i) => (
+                            <div
+                              key={i}
+                              className="h-8 w-8 rounded-full border-2 border-white shadow-sm transition-transform hover:scale-110 hover:z-10"
+                              style={{ backgroundColor: c.hex }}
+                              title={c.name}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-[11px] text-muted">{d.colors.map(c => c.name).join(" · ")}</span>
                       </div>
-                    ))}
-                  </div>
+                    </div>
 
-                  {/* Color Palette */}
-                  <div className="space-y-2.5">
-                    <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-muted/70">Colour Palette</span>
-                    <div className="flex items-center gap-4">
-                      <div className="flex -space-x-1">
-                        {d.colors.map((c, i) => (
-                          <div
-                            key={i}
-                            className="h-9 w-9 rounded-full border-2 border-white shadow-md transition-transform hover:scale-110 hover:z-10"
-                            style={{ backgroundColor: c.hex }}
-                            title={c.name}
-                          />
-                        ))}
+                    {/* Price */}
+                    <div className="grid grid-cols-3 gap-3">
+                      <div className="rounded-xl bg-white border border-border-light p-4 text-center">
+                        <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted/60 block">Your Price</span>
+                        <span className="font-playfair text-xl font-bold text-charcoal block mt-1">₹{d.price}</span>
                       </div>
-                      <span className="text-[11px] italic text-muted font-playfair">
-                        {d.colors.map(c => c.name).join(" · ")}
+                      <div className="rounded-xl bg-white border border-border-light p-4 text-center">
+                        <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted/60 block">Market Range</span>
+                        <span className="font-playfair text-xl font-bold text-accent-amber block mt-1">₹{d.marketRangeMin}–{d.marketRangeMax}</span>
+                      </div>
+                      <div className="rounded-xl bg-accent-green-bg border border-accent-green/10 p-4 text-center">
+                        <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted/60 block">Sweet Spot</span>
+                        <span className="font-playfair text-xl font-bold text-accent-green block mt-1">₹{d.sweetSpot}</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Tab 1: Brand Match */}
+                {activeTab === 1 && (
+                  <div className="space-y-5 animate-fade-in">
+                    {/* Brand match card */}
+                    <div className="rounded-xl bg-white border border-border-light p-5">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-maroon">🔍 Brand Match Found</span>
+                      </div>
+                      <div className="flex items-baseline gap-3 mb-2">
+                        <span className="font-playfair text-xl font-bold text-charcoal">{d.brandMatchName}</span>
+                        <span className="rounded-full bg-maroon/10 px-2.5 py-0.5 text-[10px] font-bold text-maroon">
+                          {d.brandMatchConfidence} match
+                        </span>
+                      </div>
+                      <p className="text-[12px] text-muted leading-relaxed">{d.brandMatchClosestListing}</p>
+                    </div>
+
+                    {/* Stats */}
+                    <div className="grid grid-cols-3 gap-3">
+                      {[
+                        { label: "Logo", value: d.logoStatus },
+                        { label: "Fingerprint", value: d.fingerprintStatus },
+                        { label: "DB Scanned", value: d.dbScannedStatus },
+                      ].map((m, i) => (
+                        <div key={i} className="rounded-xl bg-white border border-border-light p-4 text-center">
+                          <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted/60 block">{m.label}</span>
+                          <span className="text-[13px] font-bold text-charcoal block mt-1">{m.value}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Auto-save */}
+                    <div className="flex items-center gap-2.5 rounded-xl border border-accent-green/15 bg-accent-green-bg/50 p-4">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent-green text-white text-[10px]">✓</span>
+                      <span className="text-[11px] font-medium text-accent-green">
+                        Auto-saved: {d.tracedAccount} + {d.brandMatchName} added to Competitor References
                       </span>
                     </div>
                   </div>
+                )}
 
-                  {/* Price Row */}
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="border-t-2 border-charcoal bg-white p-3.5 text-center shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
-                      <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted/70 block">Your Price</span>
-                      <span className="font-playfair text-xl font-bold text-charcoal block mt-1">₹{d.price}</span>
-                    </div>
-                    <div className="border-t-2 border-accent-amber bg-white p-3.5 text-center shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
-                      <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted/70 block">Market Range</span>
-                      <span className="font-playfair text-xl font-bold text-accent-amber block mt-1">₹{d.marketRangeMin}–₹{d.marketRangeMax}</span>
-                    </div>
-                    <div className="border-t-2 border-accent-green bg-white p-3.5 text-center shadow-[0_1px_4px_rgba(0,0,0,0.04)]">
-                      <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-muted/70 block">Sweet Spot</span>
-                      <span className="font-playfair text-xl font-bold text-accent-green block mt-1">₹{d.sweetSpot}</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* ═══ RIGHT PAGE ══════════════════ */}
-                <div className="p-7 lg:p-8 space-y-6 bg-white/30">
-
-                  {/* Layer 2 — Brand Recognition */}
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <div className="h-[2px] w-5 bg-accent-purple" />
-                      <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-accent-purple">Layer 2 — Brand Recognition</span>
-                    </div>
-
-                    <div className="rounded-2xl bg-charcoal p-5 text-white space-y-4 shadow-xl">
-                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-accent-amber">🔍 Brand Match Found</span>
-                      <div>
-                        <div className="flex items-baseline gap-3 mt-1">
-                          <span className="font-playfair text-2xl font-bold">{d.brandMatchName}</span>
-                          <span className="rounded bg-accent-amber px-2 py-0.5 text-[9px] font-bold text-charcoal shadow-sm">
-                            {d.brandMatchConfidence} match
-                          </span>
-                        </div>
-                        <p className="mt-2 text-[11px] text-white/55 leading-relaxed">{d.brandMatchClosestListing}</p>
-                      </div>
-                      <div className="grid grid-cols-3 gap-2">
-                        {[
-                          { label: "Logo", value: d.logoStatus },
-                          { label: "Fingerprint", value: d.fingerprintStatus },
-                          { label: "DB Scanned", value: d.dbScannedStatus },
-                        ].map((m, i) => (
-                          <div key={i} className="rounded-xl bg-white/[0.06] border border-white/[0.08] p-2.5 text-center">
-                            <span className="text-[7px] uppercase tracking-[0.15em] text-white/35 block">{m.label}</span>
-                            <span className="text-[10px] font-semibold text-white/90 block mt-0.5">{m.value}</span>
-                          </div>
-                        ))}
+                {/* Tab 2: Social Intel */}
+                {activeTab === 2 && (
+                  <div className="space-y-5 animate-fade-in">
+                    {/* Influencer Trace */}
+                    <div className="rounded-xl bg-white border border-border-light p-5">
+                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-accent-purple mb-2 block">Micro-Influencer Trace</span>
+                      <h4 className="font-playfair text-lg font-bold text-charcoal">{d.tracedAccount}</h4>
+                      <p className="mt-1 text-[11px] text-muted">
+                        <strong className="text-charcoal">{d.tracedFollowers}</strong> followers · <strong className="text-charcoal">{d.tracedEngagement}</strong> engagement · 📍 {d.tracedLocation}
+                      </p>
+                      <div className="mt-3 border-t border-border-light pt-3">
+                        <span className="text-[8px] uppercase tracking-[0.15em] text-muted/60 block">Brand Wearing</span>
+                        <p className="text-[12px] font-bold text-charcoal mt-0.5">{d.tracedBrandWearing}</p>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Layer 3 — Micro-Influencer Trace */}
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3">
-                      <div className="h-[2px] w-5 bg-accent-purple" />
-                      <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-accent-purple">Layer 3 — Micro-Influencer Trace</span>
+                    {/* Purchase Intent */}
+                    <div className="rounded-xl bg-white border border-accent-purple/10 p-5">
+                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-accent-purple mb-2 block">Purchase Intent Signal</span>
+                      <p className="text-[12px] text-muted leading-relaxed italic">"{d.tracedPurchaseIntent}"</p>
                     </div>
 
-                    <div className="rounded-2xl border border-accent-purple/15 bg-accent-purple-bg/60 p-5 space-y-4">
-                      <div>
-                        <span className="text-[8px] font-bold uppercase tracking-[0.18em] text-accent-purple/70">Instagram Account Traced</span>
-                        <h4 className="font-playfair text-lg font-bold text-accent-purple mt-0.5">{d.tracedAccount}</h4>
-                        <p className="mt-1 text-[11px] text-muted">
-                          <strong className="text-charcoal">{d.tracedFollowers}</strong> followers&ensp;·&ensp;
-                          <strong className="text-charcoal">{d.tracedEngagement}</strong> engagement&ensp;·&ensp;
-                          📍 {d.tracedLocation}
-                        </p>
+                    {/* Pinterest */}
+                    <div className="rounded-xl bg-white border border-border-light p-5">
+                      <div className="flex items-center gap-2 mb-3">
+                        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#e60023] text-white text-[10px] font-black">P</span>
+                        <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted/60">Pinterest Save Signal</span>
                       </div>
-
-                      <div className="border-t border-accent-purple/10 pt-3">
-                        <span className="text-[8px] uppercase tracking-[0.15em] text-muted/60 block">Brand She's Wearing</span>
-                        <p className="text-[13px] font-bold text-charcoal mt-0.5">{d.tracedBrandWearing}</p>
+                      <div className="flex items-baseline gap-2 mb-1">
+                        <span className="font-playfair text-2xl font-bold text-charcoal">{d.pinterestSaves}</span>
+                        <span className="text-[11px] text-muted">saves — "{d.pinterestKeyword}"</span>
                       </div>
-
-                      <div className="rounded-xl bg-white p-3.5 border border-accent-purple/10 shadow-sm">
-                        <span className="text-[8px] font-bold uppercase tracking-[0.15em] text-accent-purple">Purchase Intent Signal</span>
-                        <p className="mt-1 text-[11px] text-muted leading-relaxed italic">"{d.tracedPurchaseIntent}"</p>
-                      </div>
+                      <p className="text-[11px] font-bold text-accent-green">{d.pinterestGrowth} vs last week</p>
+                      <p className="text-[10px] text-muted border-t border-border-light pt-2 mt-2">Boards: {d.pinterestBoards}</p>
                     </div>
                   </div>
-
-                  {/* Pinterest Save Signal */}
-                  <div className="rounded-2xl border border-border bg-white p-5 space-y-2 shadow-sm">
-                    <div className="flex items-center gap-2.5">
-                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#e60023] text-white text-[11px] font-black shadow-sm">P</span>
-                      <span className="text-[9px] font-bold uppercase tracking-[0.2em] text-muted/70">Pinterest Save Signal</span>
-                    </div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="font-playfair text-3xl font-bold text-charcoal">{d.pinterestSaves}</span>
-                      <span className="text-[11px] text-muted">public board saves — <em>"{d.pinterestKeyword}"</em></span>
-                    </div>
-                    <p className="text-[11px] font-bold text-accent-green">{d.pinterestGrowth} vs last week · Leads Instagram by ~3 weeks</p>
-                    <p className="text-[10px] text-muted border-t border-border-light pt-2">Boards: {d.pinterestBoards}</p>
-                  </div>
-
-                  {/* Auto-save strip */}
-                  <div className="flex items-center gap-2.5 rounded-xl border border-accent-green/20 bg-accent-green-bg p-3.5">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-accent-green text-white text-[10px]">✓</span>
-                    <span className="text-[11px] font-medium text-accent-green">
-                      Auto-saved: {d.tracedAccount} + {d.brandMatchName} added to Competitor References
-                    </span>
-                  </div>
-
-                  {/* CTA */}
-                  <button
-                    onClick={() => { setSelectedProduct(null); navigate("/dashboard"); }}
-                    className="w-full rounded-xl bg-charcoal py-3.5 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all hover:bg-charcoal/90 shadow-lg shadow-charcoal/15"
-                  >
-                    Run 10 Intelligence Signals →
-                  </button>
-                </div>
-
+                )}
               </div>
 
-              {/* ── MODAL FOOTER ──────────────────── */}
-              <div className="flex justify-end border-t border-black/[0.06] px-8 py-4">
+              {/* ── FOOTER ── */}
+              <div className="flex items-center justify-between border-t border-border px-6 py-4">
                 <button
                   onClick={() => setSelectedProduct(null)}
-                  className="rounded-xl bg-maroon px-6 py-2.5 text-[12px] font-bold text-white shadow-md shadow-maroon/15 transition-all hover:bg-maroon-light hover:shadow-lg hover:shadow-maroon/20"
+                  className="rounded-xl border border-border px-5 py-2.5 text-[12px] font-bold text-charcoal transition-all hover:bg-surface-secondary"
                 >
-                  Close Report
+                  Close
+                </button>
+                <button
+                  onClick={() => { setSelectedProduct(null); navigate("/signals"); }}
+                  className="group inline-flex items-center gap-2 rounded-xl bg-maroon px-5 py-2.5 text-[12px] font-bold text-white shadow-md shadow-maroon/15 transition-all hover:bg-maroon-light hover:shadow-lg"
+                >
+                  Run Intelligence Signals
+                  <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
                 </button>
               </div>
-
             </div>
           </div>
         );
