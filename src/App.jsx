@@ -10,6 +10,9 @@ import NewAnalysis from './pages/NewAnalysis';
 import ProductsPage from './pages/ProductsPage';
 import SignalsPage from './pages/SignalsPage';
 import RecommendationsPage from './pages/RecommendationsPage';
+import ProductionPage from './pages/ProductionPage';
+import PricingPage from './pages/PricingPage';
+import CitiesPage from './pages/CitiesPage';
 
 
 
@@ -58,6 +61,27 @@ function App() {
           path="/recommendations"
           element={
             <RecommendationsPage />
+          }
+        />
+
+        <Route
+          path="/production"
+          element={
+            <ProductionPage />
+          }
+        />
+
+        <Route
+          path="/pricing"
+          element={
+            <PricingPage />
+          }
+        />
+
+        <Route
+          path="/cities"
+          element={
+            <CitiesPage />
           }
         />
         

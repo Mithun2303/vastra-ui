@@ -31,7 +31,13 @@ export default function Sidebar({ brand, onLogout, collapsed, mobileOpen, onClos
         ? "signals"
         : location.pathname.includes("recommendations")
           ? "recommendations"
-          : "dashboard";
+          : location.pathname.includes("production")
+            ? "production"
+            : location.pathname.includes("pricing")
+              ? "pricing"
+              : location.pathname.includes("cities")
+                ? "cities"
+                : "dashboard";
   const isCollapsed = collapsed && !mobileOpen;
 
   return (
@@ -81,6 +87,12 @@ export default function Sidebar({ brand, onLogout, collapsed, mobileOpen, onClos
                     navigate("/signals");
                   } else if (item.id === "recommendations") {
                     navigate("/recommendations");
+                  } else if (item.id === "production") {
+                    navigate("/production");
+                  } else if (item.id === "pricing") {
+                    navigate("/pricing");
+                  } else if (item.id === "cities") {
+                    navigate("/cities");
                   }
                   if (onClose) onClose(); // Close drawer on mobile after clicking
                 }}
