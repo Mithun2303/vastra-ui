@@ -1,13 +1,22 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import TopHeader from "./TopHeader";
+import { logoutUser } from "@/lib/mockApi";
 
 export default function DashboardLayout({ brand, onLogout, children }) {
   const [hovered, setHovered] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logoutUser();
+    if (onLogout) onLogout();
+    navigate("/login");
+  };
 
   return (
-    <div className="flex min-h-screen bg-cream">
+    <div className="flex min-h-screen w-full overflow-x-hidden bg-cream">
       {/* Mobile Sidebar Backdrop */}
       {mobileOpen && (
         <div
@@ -25,7 +34,7 @@ export default function DashboardLayout({ brand, onLogout, children }) {
       >
         <Sidebar
           brand={brand}
-          onLogout={onLogout}
+          onLogout={handleLogout}
           collapsed={!hovered}
           mobileOpen={mobileOpen}
           onClose={() => setMobileOpen(false)}
@@ -33,14 +42,14 @@ export default function DashboardLayout({ brand, onLogout, children }) {
       </div>
 
       <div
-        className={`flex flex-1 flex-col transition-all duration-300 ml-0 md:pl-0 ${
+        className={`flex min-w-0 w-full max-w-full flex-1 flex-col transition-all duration-300 ml-0 md:pl-0 ${
           !hovered ? "md:ml-[72px]" : "md:ml-[260px]"
         }`}
       >
         <TopHeader brand={brand} onToggleMobileSidebar={() => setMobileOpen(!mobileOpen)} />
 
-        <main className="flex-1 overflow-y-auto dashboard-scroll">
-          <div className="mx-auto max-w-[1200px] px-4 py-6 md:px-8 md:py-8">
+        <main className="min-w-0 w-full flex-1 overflow-x-hidden overflow-y-auto dashboard-scroll">
+          <div className="mx-auto w-full max-w-[1200px] px-4 py-6 md:px-8 md:py-8">
             {children}
           </div>
         </main>

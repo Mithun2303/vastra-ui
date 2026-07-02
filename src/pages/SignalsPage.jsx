@@ -236,7 +236,7 @@ export default function SignalsPage() {
 
   return (
     <DashboardLayout brand={brand}>
-      <div className="space-y-8">
+      <div className="min-w-0 w-full max-w-full space-y-8">
 
         {/* ── HEADER ──────────────────────── */}
         <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
@@ -272,7 +272,7 @@ export default function SignalsPage() {
         </div>
 
         {/* ── HERO: COMPOSITE SCORE + TOP SIGNALS ── */}
-        <div className="grid gap-6 lg:grid-cols-[320px_1fr]">
+        <div className="grid min-w-0 gap-6 lg:grid-cols-[320px_1fr]">
 
           {/* Overall Gauge */}
           <div className="flex flex-col items-center justify-center rounded-2xl border border-border bg-white p-8 shadow-sm">
@@ -299,17 +299,17 @@ export default function SignalsPage() {
                   key={signal.id}
                   className="group rounded-2xl border border-border bg-white p-6 shadow-sm transition-all hover:shadow-md"
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <div className={`flex h-10 w-10 items-center justify-center rounded-xl ${sm.bg} ${sm.text}`}>
+                  <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="flex min-w-0 items-center gap-3">
+                      <div className={`flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl ${sm.bg} ${sm.text}`}>
                         <Icon size={18} />
                       </div>
-                      <div>
+                      <div className="min-w-0">
                         <h3 className="font-playfair text-[17px] font-bold text-charcoal">{signal.title}</h3>
-                        <p className="text-[11px] text-muted mt-0.5">{signal.description}</p>
+                        <p className="mt-0.5 text-[11px] text-muted">{signal.description}</p>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
+                    <div className="flex flex-shrink-0 items-center gap-3 self-start sm:self-auto">
                       <Sparkline data={sparkData} color={signal.color} w={90} h={32} />
                       <span className="text-3xl font-bold text-charcoal">{signal.score}</span>
                     </div>
@@ -323,9 +323,9 @@ export default function SignalsPage() {
                     />
                   </div>
 
-                  <div className="flex items-center justify-between mt-3">
-                    <p className="text-[10px] text-muted max-w-[70%] leading-relaxed">{signal.detail}</p>
-                    <span className={`rounded-full border px-2.5 py-1 text-[9px] font-bold ${statusSm.bg} ${statusSm.text} ${statusSm.border}`}>
+                  <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <p className="text-[10px] leading-relaxed text-muted sm:max-w-[70%]">{signal.detail}</p>
+                    <span className={`self-start rounded-full border px-2.5 py-1 text-[9px] font-bold sm:self-auto ${statusSm.bg} ${statusSm.text} ${statusSm.border}`}>
                       {signal.status} · {signal.score}/100
                     </span>
                   </div>
@@ -409,8 +409,8 @@ export default function SignalsPage() {
 
             return (
               <div className="mt-4 animate-slide-up rounded-2xl border border-accent-purple/15 bg-white p-6 shadow-md">
-                <div className="flex items-start justify-between gap-6">
-                  <div className="flex items-start gap-4 flex-1">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6">
+                  <div className="flex min-w-0 flex-1 items-start gap-4">
                     <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${sm.bg} ${sm.text} flex-shrink-0`}>
                       <Icon size={20} />
                     </div>
@@ -439,7 +439,7 @@ export default function SignalsPage() {
 
         {/* ── LIVE SOLD-OUT ALERTS ────────── */}
         <div className="rounded-2xl border border-accent-red/10 bg-white p-6 shadow-sm">
-          <div className="mb-5 flex items-center justify-between">
+          <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="flex items-center gap-3">
               <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-accent-red-bg">
                 <AlertTriangle size={15} className="text-accent-red" />
@@ -449,7 +449,7 @@ export default function SignalsPage() {
                 <p className="text-[10px] text-muted">Competitor stockouts detected in your market</p>
               </div>
             </div>
-            <span className="flex items-center gap-1.5 text-[10px] text-accent-red font-semibold">
+            <span className="flex items-center gap-1.5 text-[10px] font-semibold text-accent-red">
               <span className="h-2 w-2 rounded-full bg-accent-red animate-pulse" />
               Live Feed
             </span>
@@ -459,7 +459,7 @@ export default function SignalsPage() {
             {SOLD_OUT_ALERTS.map((alert, i) => (
               <div
                 key={i}
-                className="flex items-center gap-4 rounded-xl border border-border bg-surface-secondary/50 px-5 py-3.5 transition-all hover:bg-white hover:shadow-sm"
+                className="flex flex-col gap-3 rounded-xl border border-border bg-surface-secondary/50 px-4 py-3.5 transition-all hover:bg-white hover:shadow-sm sm:flex-row sm:items-center sm:gap-4 sm:px-5"
               >
                 {/* Red pulsing dot */}
                 <span className="relative flex-shrink-0">
@@ -476,7 +476,7 @@ export default function SignalsPage() {
                 </div>
 
                 {/* Badge */}
-                <span className="flex-shrink-0 rounded-full bg-accent-red px-3 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-white shadow-sm">
+                <span className="self-start rounded-full bg-accent-red px-3 py-1 text-[9px] font-black uppercase tracking-[0.15em] text-white shadow-sm sm:self-auto sm:flex-shrink-0">
                   Sold Out
                 </span>
               </div>

@@ -127,7 +127,7 @@ export default function RecommendationsPage() {
 
   return (
     <DashboardLayout brand={brand}>
-      <div className="space-y-6">
+      <div className="min-w-0 w-full max-w-full space-y-6">
 
         {/* ── HEADER ── */}
         <div>
@@ -146,11 +146,11 @@ export default function RecommendationsPage() {
         {/* ── VERDICT CARD ── */}
         <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
           <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-5">
+            <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center">
               <ConfidenceRing value={DECISION.confidence} />
-              <div>
-                <div className="flex items-center gap-3 mb-1">
-                  <h2 className="font-playfair text-xl font-bold text-charcoal">{DECISION.product}</h2>
+              <div className="min-w-0">
+                <div className="mb-1 flex flex-wrap items-center gap-2 sm:gap-3">
+                  <h2 className="font-playfair text-lg font-bold text-charcoal sm:text-xl">{DECISION.product}</h2>
                   <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold ${vc.bg} ${vc.text}`}>
                     <span className={`h-1.5 w-1.5 rounded-full ${vc.dot}`} />
                     {DECISION.verdict}
@@ -161,7 +161,7 @@ export default function RecommendationsPage() {
                 </p>
               </div>
             </div>
-            <div className="text-right">
+            <div className="text-left sm:text-right">
               <span className="text-[9px] font-bold uppercase tracking-[0.15em] text-muted/60 block">Confidence</span>
               <span className="text-2xl font-bold text-charcoal">{DECISION.confidence}%</span>
             </div>
@@ -253,9 +253,10 @@ export default function RecommendationsPage() {
         {/* ── PRODUCTION TIMELINE — Horizontal ── */}
         <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
           <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-muted/60 mb-5">Production Timeline · 19 Days</h3>
-          <div className="flex items-start gap-0 overflow-x-auto pb-2">
+          <div className="min-w-0 overflow-x-auto pb-2">
+            <div className="flex min-w-max items-start gap-0">
             {TIMELINE_STEPS.map((step, i) => (
-              <div key={i} className="flex items-start flex-1 min-w-[120px]">
+              <div key={i} className="flex min-w-[120px] flex-1 items-start">
                 <div className="flex flex-col items-center flex-shrink-0">
                   {/* Dot */}
                   <div className={`h-3.5 w-3.5 rounded-full border-2 ${
@@ -281,6 +282,7 @@ export default function RecommendationsPage() {
                 </div>
               </div>
             ))}
+            </div>
           </div>
         </div>
 

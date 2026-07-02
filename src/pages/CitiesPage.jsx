@@ -102,7 +102,7 @@ export default function CitiesPage() {
 
   return (
     <DashboardLayout brand={brand}>
-      <div className="space-y-6 animate-fade-in">
+      <div className="min-w-0 w-full max-w-full space-y-6 animate-fade-in">
         
         {/* ── HEADER ── */}
         <div>
@@ -118,8 +118,23 @@ export default function CitiesPage() {
           </p>
         </div>
 
-        {/* ── CITY SELECTOR PILLS ── */}
-        <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-none">
+        {/* ── CITY SELECTOR DROPDOWN & PILLS ── */}
+        {/* Mobile selector dropdown */}
+        <div className="block sm:hidden">
+          <label className="text-[10px] font-bold text-maroon uppercase tracking-wider block mb-1.5">Select Region</label>
+          <select
+            value={activeCity}
+            onChange={(e) => setActiveCity(e.target.value)}
+            className="h-11 w-full rounded-xl border border-border-light bg-white px-3.5 text-[12px] font-bold text-charcoal outline-none focus:border-maroon/30 focus:ring-2 focus:ring-maroon/8"
+          >
+            {CITY_LIST.map(city => (
+              <option key={city} value={city}>{city.toUpperCase()}</option>
+            ))}
+          </select>
+        </div>
+
+        {/* Tablet/Desktop selector pills */}
+        <div className="hidden sm:flex flex-wrap gap-2">
           {CITY_LIST.map(city => (
             <button
               key={city}
@@ -136,10 +151,10 @@ export default function CitiesPage() {
         </div>
 
         {/* ── PRIMARY VIEW GRID ── */}
-        <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+        <div className="grid min-w-0 gap-6 lg:grid-cols-[1fr_360px]">
 
           {/* Left Column: City Specific Intelligence */}
-          <div className="space-y-6">
+          <div className="min-w-0 space-y-6">
 
             {/* City Profile Card */}
             <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
@@ -224,7 +239,7 @@ export default function CitiesPage() {
           </div>
 
           {/* Right Column: Alerts & Local Stockout Feeds */}
-          <div className="space-y-6">
+          <div className="min-w-0 space-y-6">
 
             {/* Critical Regional Alerts */}
             <div className="rounded-2xl border border-accent-amber/15 bg-accent-amber-bg/50 p-6 space-y-4">
@@ -245,13 +260,13 @@ export default function CitiesPage() {
               </div>
               <div className="space-y-3">
                 {cityData.stockOuts.map((so, idx) => (
-                  <div key={idx} className="flex items-start gap-3 border-b border-border-light pb-2 last:border-b-0 last:pb-0 text-[11px] leading-relaxed">
-                    <span className="h-2 w-2 rounded-full bg-accent-red mt-1.5 flex-shrink-0" />
-                    <div>
-                      <strong className="text-charcoal block">{so.boutique}</strong>
+                  <div key={idx} className="flex flex-col gap-2 border-b border-border-light pb-2 text-[11px] leading-relaxed last:border-b-0 last:pb-0 sm:flex-row sm:items-start sm:gap-3">
+                    <span className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-accent-red" />
+                    <div className="min-w-0 flex-1">
+                      <strong className="block text-charcoal">{so.boutique}</strong>
                       <span className="text-muted">{so.item} sold out in active catalogue</span>
                     </div>
-                    <span className="text-[9.5px] text-muted ml-auto whitespace-nowrap">{so.time}</span>
+                    <span className="text-[9.5px] text-muted sm:ml-auto sm:flex-shrink-0 sm:whitespace-nowrap">{so.time}</span>
                   </div>
                 ))}
               </div>

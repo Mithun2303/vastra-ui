@@ -289,7 +289,7 @@ export default function RecentAnalyses() {
             </div>
 
             {/* Modal Tabs */}
-            <div className="flex border-b border-border bg-surface-secondary px-2">
+            <div className="flex border-b border-border bg-surface-secondary px-2 overflow-x-auto whitespace-nowrap scrollbar-none flex-shrink-0">
               {[
                 { id: "attributes", label: "Attributes", icon: Layers },
                 { id: "signals", label: "Demand Signals", icon: Activity },
@@ -303,7 +303,7 @@ export default function RecentAnalyses() {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`flex items-center gap-2 border-b-2 px-4 py-3 text-xs font-bold uppercase tracking-wider transition-all ${
+                    className={`flex items-center gap-2 border-b-2 px-4 py-3 text-xs font-bold uppercase tracking-wider transition-all flex-shrink-0 ${
                       isActive
                         ? "border-maroon text-maroon"
                         : "border-transparent text-muted hover:text-charcoal"
@@ -317,7 +317,7 @@ export default function RecentAnalyses() {
             </div>
 
             {/* Modal Body */}
-            <div className="flex-1 overflow-y-auto p-6 dashboard-scroll">
+            <div className="flex-1 overflow-y-auto p-6 min-h-[420px] dashboard-scroll">
               {activeTab === "attributes" && (
                 <div className="space-y-4">
                   <h4 className="text-xs font-bold uppercase tracking-wider text-maroon">Product Attributes</h4>

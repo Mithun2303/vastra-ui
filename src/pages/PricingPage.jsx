@@ -131,7 +131,7 @@ export default function PricingPage() {
 
   return (
     <DashboardLayout brand={brand}>
-      <div className="space-y-6 animate-fade-in">
+      <div className="min-w-0 w-full max-w-full space-y-6 animate-fade-in">
         
         {/* ── HEADER ── */}
         <div>
@@ -149,13 +149,13 @@ export default function PricingPage() {
 
         {/* ── INTERACTIVE ANALYZER ── */}
         <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between border-b border-border-light pb-4 mb-8">
-            <div className="flex items-center gap-3">
-              <span className="text-[12px] font-bold text-charcoal uppercase tracking-wider">Select Product:</span>
+          <div className="flex flex-col gap-4 border-b border-border-light pb-4 mb-8 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-center sm:gap-3">
+              <span className="text-[12px] font-bold uppercase tracking-wider text-charcoal">Select Product:</span>
               <select
                 value={selectedProductId}
                 onChange={(e) => handleProductChange(e.target.value)}
-                className="h-10 rounded-xl border border-border-light bg-cream/40 px-3 text-[12px] font-medium text-charcoal outline-none focus:border-maroon/30 focus:bg-white"
+                className="h-10 w-full rounded-xl border border-border-light bg-cream/40 px-3 text-[12px] font-medium text-charcoal outline-none focus:border-maroon/30 focus:bg-white sm:w-auto sm:min-w-[200px]"
               >
                 {products.map(p => (
                   <option key={p.id} value={p.id}>{p.name}</option>
@@ -172,7 +172,8 @@ export default function PricingPage() {
           <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted/60 mb-8">Price Band Benchmarking</h3>
 
           {/* Range Slider Track */}
-          <div className="relative mb-14 mt-6 px-4">
+          <div className="relative mb-14 mt-6 overflow-x-auto px-2 sm:px-4">
+            <div className="relative min-w-[280px]">
             <div className="h-3 rounded-full bg-border-light relative">
               {/* Highlight range between min & max */}
               <div
@@ -224,11 +225,12 @@ export default function PricingPage() {
               <div className="w-2 h-2 bg-maroon rotate-45 -mt-1 shadow-sm" />
               <div className="h-8 w-0.5 bg-maroon border-dashed" />
             </div>
+            </div>
           </div>
         </div>
 
         {/* ── SIMULATOR & BENCHMARKS LAYOUT ── */}
-        <div className="grid gap-6 lg:grid-cols-[1fr_380px]">
+        <div className="grid min-w-0 gap-6 lg:grid-cols-[1fr_380px]">
 
           {/* Left Pane: Interactive Profit Simulator */}
           <div className="rounded-2xl border border-border bg-white p-6 shadow-sm space-y-6">

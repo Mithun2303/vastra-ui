@@ -5,6 +5,13 @@
       "name": "Demo User",
       "email": "demo@vastra.in",
       "password": "demo123"
+    },
+    {
+      "name": "Mithun Karthick",
+      "email": "demo@vastra1.in",
+      "password": "demo123",
+      "mobile_number": "08124473187",
+      "id": "0pdS5M0DFI4"
     }
   ],
   "brands": [
@@ -20,6 +27,20 @@
       ],
       "createdAt": "2026-06-21T17:24:19.081Z",
       "id": "1"
+    },
+    {
+      "userId": null,
+      "brandName": "asdfghjk",
+      "city": "",
+      "asp": "800",
+      "categories": [
+        "coords",
+        "occasion_wear"
+      ],
+      "mobile_number": "9876543210",
+      "email": "ravi@example.com",
+      "createdAt": "2026-07-02T16:44:19.775Z",
+      "id": "y7_j04hsfDg"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

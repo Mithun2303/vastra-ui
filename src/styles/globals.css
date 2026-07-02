@@ -57,6 +57,13 @@ body {
   font-family: "Inter", "DM Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+html,
+#root {
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 .font-playfair {

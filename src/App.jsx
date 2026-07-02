@@ -28,60 +28,72 @@ function App() {
         <Route
           path="/dashboard"
           element={
-          
+            <ProtectedRoute>
               <Dashboard />
-          
+            </ProtectedRoute>
           }
         />
         
         <Route
           path="/analysis"
           element={
-        
+            <ProtectedRoute>
               <NewAnalysis />
-          
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/products"
           element={
-            <ProductsPage />
+            <ProtectedRoute>
+              <ProductsPage />
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/signals"
           element={
-            <SignalsPage />
+            <ProtectedRoute>
+              <SignalsPage />
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/recommendations"
           element={
-            <RecommendationsPage />
+            <ProtectedRoute>
+              <RecommendationsPage />
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/production"
           element={
-            <ProductionPage />
+            <ProtectedRoute>
+              <ProductionPage />
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/pricing"
           element={
-            <PricingPage />
+            <ProtectedRoute>
+              <PricingPage />
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/cities"
           element={
-            <CitiesPage />
+            <ProtectedRoute>
+              <CitiesPage />
+            </ProtectedRoute>
           }
         />
         

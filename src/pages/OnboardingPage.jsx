@@ -43,14 +43,8 @@ export default function OnboardingPage() {
   };
 
   return (
-    <div className="
-  bg-cream
-  min-h-screen
-  md:h-screen
-  md:overflow-hidden
-  px-6
-  py-4
-">      <div className="mx-auto h-full md:flex md:flex-col justify-center w-full max-w-6xl">
+    <div className="min-h-screen w-full overflow-x-hidden bg-cream px-4 py-10 sm:px-6 md:py-16">
+      <div className="mx-auto w-full max-w-6xl">
 
         <h1
           className="
@@ -84,8 +78,7 @@ export default function OnboardingPage() {
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-
-            className="grid gap-8 lg:grid-cols-2 min-h-fit md:h-[calc(100vh-200px)]"
+            className="grid gap-8 lg:grid-cols-2 mt-6"
           >
             {/* Form */}
 
@@ -94,7 +87,7 @@ export default function OnboardingPage() {
                 Step 01
               </p>
 
-              <h1 className="mt-4 font-playfair text-5xl font-bold">
+              <h1 className="mt-4 font-playfair text-3xl font-bold sm:text-4xl lg:text-5xl">
                 Tell us about your brand.
               </h1>
 
@@ -204,13 +197,7 @@ export default function OnboardingPage() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="
-            min-h-fit
-      md:h-[calc(100vh-200px)]
-      grid
-      gap-6
-      lg:grid-cols-[1fr_320px]
-    "
+            className="grid gap-6 lg:grid-cols-[1fr_320px] mt-6"
           >
             {/* LEFT SECTION */}
 
@@ -231,7 +218,7 @@ export default function OnboardingPage() {
 
               {/* Categories */}
 
-              <div className="mt-6 grid grid-cols-4 gap-3">
+              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
                 {categories.map((category) => (
                   <button
   key={category.name}

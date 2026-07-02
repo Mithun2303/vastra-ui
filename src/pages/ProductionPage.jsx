@@ -275,7 +275,7 @@ export default function ProductionPage() {
 
   return (
     <DashboardLayout brand={brand}>
-      <div className="space-y-6 animate-fade-in">
+      <div className="min-w-0 w-full max-w-full space-y-6 animate-fade-in">
         
         {/* ── HEADER ── */}
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -318,10 +318,10 @@ export default function ProductionPage() {
         </div>
 
         {/* ── PRIMARY WORKSPACE LAYOUT ── */}
-        <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+        <div className="grid min-w-0 gap-6 lg:grid-cols-[280px_1fr]">
 
           {/* Left Column: Batches List */}
-          <div className="space-y-3">
+          <div className="min-w-0 space-y-3">
             <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted/60">Active Batches</h3>
             <div className="space-y-2">
               {batches.map((batch, index) => {
@@ -382,7 +382,7 @@ export default function ProductionPage() {
           </div>
 
           {/* Right Column: Active Batch Details & Milestones */}
-          <div className="space-y-6">
+          <div className="min-w-0 space-y-6">
 
             {/* Batch Header / Info */}
             <div className="rounded-2xl border border-border bg-white p-6 shadow-sm">
@@ -494,19 +494,19 @@ export default function ProductionPage() {
             <h3 className="text-[13px] font-bold text-charcoal">Live Logistics & Sourcing Feed</h3>
           </div>
           <div className="space-y-3">
-            <div className="flex items-start gap-3 text-[11px] leading-relaxed text-muted border-b border-border-light pb-2">
-              <span className="h-2 w-2 rounded-full bg-accent-amber mt-1.5 flex-shrink-0" />
-              <div>
+            <div className="flex flex-col gap-2 text-[11px] leading-relaxed text-muted border-b border-border-light pb-2 sm:flex-row sm:items-start sm:gap-3">
+              <span className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-accent-amber" />
+              <div className="min-w-0 flex-1">
                 <strong className="text-charcoal">Dyeing delay alert (Tirupur):</strong> Monsoon humidity levels have slightly slowed natural hang-drying times. Sourcing shifts updated to maintain block printing deadlines.
               </div>
-              <span className="text-[9px] text-muted ml-auto">1 hour ago</span>
+              <span className="text-[9px] text-muted sm:ml-auto sm:flex-shrink-0">1 hour ago</span>
             </div>
-            <div className="flex items-start gap-3 text-[11px] leading-relaxed text-muted border-b border-border-light pb-2 last:border-b-0 last:pb-0">
-              <span className="h-2 w-2 rounded-full bg-accent-green mt-1.5 flex-shrink-0" />
-              <div>
+            <div className="flex flex-col gap-2 text-[11px] leading-relaxed text-muted sm:flex-row sm:items-start sm:gap-3">
+              <span className="mt-1.5 h-2 w-2 flex-shrink-0 rounded-full bg-accent-green" />
+              <div className="min-w-0 flex-1">
                 <strong className="text-charcoal">Fabric dispatch confirmed (Erode):</strong> 500m cotton-linen blend dispatched to Tirupur Stitching Hub. Delivery status: Received.
               </div>
-              <span className="text-[9px] text-muted ml-auto">5 hours ago</span>
+              <span className="text-[9px] text-muted sm:ml-auto sm:flex-shrink-0">5 hours ago</span>
             </div>
           </div>
         </div>
